@@ -1,5 +1,7 @@
 # runpod_proxy
 
+[繁體中文](README.md)
+
 A local HTTP proxy that works around compatibility issues in RunPod's S3 API, allowing standard S3 client tools to access RunPod storage.
 
 ## Problem
@@ -53,3 +55,26 @@ go build -o runpod_proxy runpod_proxy.go
 ```
 
 Then configure your S3 tool to use `http://localhost:9000` as the endpoint.
+
+## Example: rclone
+
+Add the following to `~/.config/rclone/rclone.conf`:
+
+```ini
+[runpod]
+type = s3
+provider = Other
+access_key_id = placeholder
+secret_access_key = placeholder
+endpoint = http://localhost:9000
+no_check_bucket = true
+```
+
+> `access_key_id` / `secret_access_key` can be any value — signing is handled by the proxy.
+
+Common commands:
+
+```bash
+rclone ls runpod:my-bucket
+rclone copy ./local-dir runpod:my-bucket/path --progress
+```

@@ -1,5 +1,7 @@
 # runpod_proxy
 
+[English](README_en.md)
+
 一個本地 HTTP Proxy，用於修復 RunPod S3 API 的相容性問題，使各種標準 S3 工具能夠正常存取 RunPod 儲存空間。
 
 ## 問題背景
@@ -53,3 +55,26 @@ go build -o runpod_proxy runpod_proxy.go
 ```
 
 啟動後，將 S3 工具的 Endpoint 設為 `http://localhost:9000` 即可。
+
+## 使用範例：rclone
+
+在 `~/.config/rclone/rclone.conf` 新增以下設定：
+
+```ini
+[runpod]
+type = s3
+provider = Other
+access_key_id = placeholder
+secret_access_key = placeholder
+endpoint = http://localhost:9000
+no_check_bucket = true
+```
+
+> `access_key_id` / `secret_access_key` 填任意值即可，簽署由 Proxy 負責。
+
+常用指令：
+
+```bash
+rclone ls runpod:my-bucket
+rclone copy ./local-dir runpod:my-bucket/path --progress
+```
