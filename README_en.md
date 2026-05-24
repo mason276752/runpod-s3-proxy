@@ -67,6 +67,7 @@ provider = Other
 access_key_id = placeholder
 secret_access_key = placeholder
 endpoint = http://localhost:9000
+region = eu-ro-1
 no_check_bucket = true
 ```
 
